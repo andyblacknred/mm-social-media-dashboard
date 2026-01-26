@@ -1,0 +1,22 @@
+{
+  "accounts": [
+    {
+      "id": "acc_1",
+      "platform": "Instagram",
+      "name": "mine_marketing",
+      "followers": 12450,
+      "engagementRate": 3.8,
+      "postsLast7Days": 5,
+      "updatedAt": "2026-01-26T00:00:00.000Z"
+    },
+    {
+      "id": "acc_2",
+      "platform": "TikTok",
+      "name": "mine.tok",
+      "followers": 55200,
+      "engagementRate": 7.1,
+      "postsLast7Days": 9,
+      "updatedAt": "2026-01-26T00:00:00.000Z"
+    }
+  ]
+}
