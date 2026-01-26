@@ -1,11 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Button from '@mui/material/Button';
+import { useState } from 'react'
+import { Provider } from "react-redux";
+
+import { store } from "./app/store.ts";
 import './App.css'
-import {Provider} from "react-redux";
-import {store} from "./app/store.ts";
-import {Counter} from "./features/counter/Counter.tsx";
+import reactLogo from './assets/react.svg'
+import { Counter } from "./features/counter/Counter.tsx";
+
 
 function App() {
   const [count, setCount] = useState(0)
