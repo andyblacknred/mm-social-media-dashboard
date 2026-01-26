@@ -2,7 +2,19 @@ import { Alert, CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { AccountCard, fetchAccounts, selectAccounts, selectAccountsError, selectAccountsLoading } from '@/entities/account';
+import {
+  AccountCard,
+  fetchAccounts,
+  selectAccounts,
+  selectAccountsError,
+  selectAccountsLoading,
+} from '@/entities/account';
+import {
+  AccountActions,
+  AccountUpsertModal,
+  AddAccountButton,
+  DeleteAccountConfirm,
+} from '@/features/account-manage';
 
 export function AccountsOverview() {
   const dispatch = useAppDispatch();
@@ -19,6 +31,7 @@ export function AccountsOverview() {
     <div className="container py-4">
       <div className="d-flex align-items-center justify-content-between mb-3">
         <h1 className="h4 m-0">Social Media Overview</h1>
+        <AddAccountButton />
       </div>
 
       {loading ? (
@@ -27,21 +40,21 @@ export function AccountsOverview() {
         </div>
       ) : null}
 
-      {error ? (
-        <Alert severity="error">{error}</Alert>
-      ) : null}
+      {error ? <Alert severity="error">{error}</Alert> : null}
 
-      {!loading && !error && items.length === 0 ? (
-        <Alert severity="info">No accounts yet</Alert>
-      ) : null}
+      {!loading && !error && items.length === 0 ? <Alert severity="info">No accounts yet</Alert> : null}
 
       <div className="row g-3 mt-1">
         {items.map((account) => (
           <div key={account.id} className="col-12 col-md-6 col-xl-4">
-            <AccountCard account={account} />
+            <AccountCard account={account} actions={<AccountActions accountId={account.id} />} />
           </div>
         ))}
       </div>
+
+      {/* Modals */}
+      <AccountUpsertModal />
+      <DeleteAccountConfirm />
     </div>
   );
 }
