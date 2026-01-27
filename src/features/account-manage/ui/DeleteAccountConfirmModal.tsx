@@ -31,7 +31,7 @@ export function DeleteAccountConfirmModal() {
           Are you sure you want to delete <b>{account?.name ?? 'this account'}</b>?
         </Typography>
       </DialogContent>
-      <DialogActions>
+      <DialogActions className="px-4 pb-3 pt-0">
         <Button onClick={handleCancel}>Cancel</Button>
         <Button
           color="error"
