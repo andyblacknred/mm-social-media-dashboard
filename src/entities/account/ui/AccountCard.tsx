@@ -1,4 +1,4 @@
-import {Card, CardContent, Typography, Stack, Chip, Box, Tooltip, styled} from '@mui/material';
+import { Card, CardContent, Typography, Stack, Chip, Box, Tooltip, styled } from '@mui/material';
 
 import type { Account } from "@/entities/account";
 import { formatCompactNumber, isCompactApplied } from "@/shared/lib/formatNumber.ts";
