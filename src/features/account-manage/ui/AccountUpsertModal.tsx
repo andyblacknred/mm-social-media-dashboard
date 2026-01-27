@@ -12,9 +12,9 @@ const platforms: AccountPlatform[] = ['Instagram', 'TikTok', 'YouTube', 'X', 'Fa
 const schema = Yup.object({
   platform: Yup.string().oneOf(platforms).required('Platform is required'),
   name: Yup.string().min(2, 'Too short').max(60, 'Too long').required('Name is required'),
-  followers: Yup.number().min(0).required('Followers is required'),
-  engagementRate: Yup.number().min(0).max(100).required('Engagement rate is required'),
-  postsLast7Days: Yup.number().min(0).required('Posts (last 7 days) is required'),
+  followers: Yup.number().label('Followers').min(0).required('Followers is required'),
+  engagementRate: Yup.number().label('Engagement rate').min(0).max(100).required('Engagement rate is required'),
+  postsLast7Days: Yup.number().label('Number of posts').min(0).required('Posts (last 7 days) is required'),
 });
 
 export function AccountUpsertModal() {
