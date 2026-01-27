@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography, Stack, Chip, Box, Tooltip } from '@mui/material';
+import {Card, CardContent, Typography, Stack, Chip, Box, Tooltip, styled} from '@mui/material';
 
 import type { Account } from "@/entities/account";
 import { formatCompactNumber, isCompactApplied } from "@/shared/lib/formatNumber.ts";
@@ -8,6 +8,17 @@ type Props = {
   actions?: React.ReactNode;
 };
 
+const HoverCard = styled(Card)(({ theme }) => ({
+  height: '100%',
+  transition: 'transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease',
+  borderColor: theme.palette.divider,
+  '&:hover': {
+    transform: 'translateY(-2px)',
+    boxShadow: theme.shadows[4],
+    borderColor: theme.palette.primary.main,
+  },
+}));
+
 const buttonsSectionWidth = 80; // px
 
 export function AccountCard({ account, actions }: Props) {
@@ -15,7 +26,7 @@ export function AccountCard({ account, actions }: Props) {
   const followers = formatCompactNumber(account.followers);
 
   return (
-    <Card variant="outlined" className="h-full">
+    <HoverCard variant="outlined" className="h-full">
       <CardContent  className="h-full flex flex-col justify-between items-start w-full">
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start" width="100%" spacing={2}>
           <Box maxWidth={`calc(100% - ${buttonsSectionWidth}px)`}>
@@ -67,6 +78,6 @@ export function AccountCard({ account, actions }: Props) {
           }
         </Stack>
       </CardContent>
-    </Card>
+    </HoverCard>
   );
 }
