@@ -1,3 +1,5 @@
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { IconButton, Stack, Tooltip } from '@mui/material';
 
 import { accountManageActions } from '@/features/account-manage';
@@ -14,13 +16,13 @@ export function AccountActions({ accountId }: Props) {
     <Stack direction="row" spacing={1}>
       <Tooltip title="Edit">
         <IconButton size="small" onClick={() => dispatch(accountManageActions.openEdit(accountId))}>
-          <div>edit icon (todo)</div>
+          <EditOutlinedIcon fontSize="small" />
         </IconButton>
       </Tooltip>
 
       <Tooltip title="Delete">
         <IconButton size="small" onClick={() => dispatch(accountManageActions.openDelete(accountId))}>
-          <div>delete icon (todo)</div>
+          <DeleteOutlineIcon fontSize="small" />
         </IconButton>
       </Tooltip>
     </Stack>
