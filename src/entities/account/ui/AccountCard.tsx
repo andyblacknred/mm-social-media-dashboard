@@ -8,15 +8,17 @@ type Props = {
   actions?: React.ReactNode;
 };
 
+const buttonsSectionWidth = 80; // px
+
 export function AccountCard({ account, actions }: Props) {
   const postsLast7Days = formatCompactNumber(account.postsLast7Days);
   const followers = formatCompactNumber(account.followers);
 
   return (
-    <Card variant="outlined">
-      <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
-          <Box>
+    <Card variant="outlined" className="h-full">
+      <CardContent  className="h-full flex flex-col justify-between items-start w-full">
+        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" width="100%" spacing={2}>
+          <Box maxWidth={`calc(100% - ${buttonsSectionWidth}px)`}>
             <Typography variant="h6">{account.name}</Typography>
             <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
               <Chip size="small" label={account.platform} />
@@ -26,15 +28,15 @@ export function AccountCard({ account, actions }: Props) {
                 disableHoverListener={!isCompactApplied(postsLast7Days)}
                 disableTouchListener={!isCompactApplied(postsLast7Days)}
               >
-                <Chip size="small" label={`Posts (last 7 days): ${postsLast7Days.short}`} />
+                <Chip size="small" label={`Posts (last 7d): ${postsLast7Days.short}`} />
               </Tooltip>
             </Stack>
           </Box>
 
-          {actions ? <div className="hidden sm:block">{actions}</div> : null}
+          {actions ? <Box className="hidden sm:flex m-0 justify-end" minWidth={buttonsSectionWidth}>{actions}</Box> : null}
         </Stack>
 
-        <Stack direction="row" spacing={3} sx={{ mt: 2 }}>
+        <Stack direction="row" spacing={3} sx={{ mt: 2 }} width="100%">
           <Box>
             <Typography variant="caption" color="text.secondary">
               Followers
