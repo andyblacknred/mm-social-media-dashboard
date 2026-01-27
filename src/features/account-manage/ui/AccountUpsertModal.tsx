@@ -1,10 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, MenuItem, Stack } from '@mui/material';
-import { Formik } from 'formik';
+import { Formik, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { createAccount, selectAccounts, updateAccount, type AccountPlatform } from '@/entities/account';
+import { type AccountPlatform, type AccountUpsert } from '@/entities/account';
+import { useAccounts } from "@/entities/account/model/useAccounts.ts";
 import { accountManageActions, selectEditingId, selectUpsertOpen } from '@/features/account-manage';
+import { useAppDispatch, useAppSelector } from "@/shared/lib/storeHooks.ts";
 
 const platforms: AccountPlatform[] = ['Instagram', 'TikTok', 'YouTube', 'X', 'Facebook', 'LinkedIn'];
 
@@ -19,13 +20,13 @@ const schema = Yup.object({
 export function AccountUpsertModal() {
   const dispatch = useAppDispatch();
 
-  const open = useAppSelector(selectUpsertOpen);
+  const isOpened = useAppSelector(selectUpsertOpen);
   const editingId = useAppSelector(selectEditingId);
-  const accounts = useAppSelector(selectAccounts);
+  const { items: accounts, update: updateAccount, create: createAccount } = useAccounts();
 
   const editing = editingId ? accounts.find((x) => x.id === editingId) : undefined;
 
-  const initialValues = {
+  const initialValues: AccountUpsert = {
     platform: editing?.platform ?? platforms[0],
     name: editing?.name ?? '',
     followers: editing?.followers ?? 0,
@@ -35,26 +36,32 @@ export function AccountUpsertModal() {
 
   const title = editing ? 'Edit account' : 'Add account';
 
+  const handleFormikSubmit = 
+    async (
+      values: AccountUpsert,
+      helpers: FormikHelpers<AccountUpsert>
+    ) => {
+      try {
+        if (editingId) {
+          await updateAccount(editingId, values)
+        } else {
+          await createAccount(values)
+        }
+        dispatch(accountManageActions.closeUpsert());
+      } catch (e) {
+        helpers.setStatus({ submitError: e instanceof Error ? e.message : 'Submit failed' });
+      }
+    }
+
   return (
-    <Dialog open={open} onClose={() => dispatch(accountManageActions.closeUpsert())} fullWidth maxWidth="sm">
+    <Dialog open={isOpened} onClose={() => dispatch(accountManageActions.closeUpsert())} fullWidth maxWidth="sm">
       <DialogTitle>{title}</DialogTitle>
 
       <Formik
         enableReinitialize
         initialValues={initialValues}
         validationSchema={schema}
-        onSubmit={async (values, helpers) => {
-          try {
-            if (editingId) {
-              await dispatch(updateAccount({ id: editingId, payload: values })).unwrap();
-            } else {
-              await dispatch(createAccount(values)).unwrap();
-            }
-            dispatch(accountManageActions.closeUpsert());
-          } catch (e) {
-            helpers.setStatus({ submitError: e instanceof Error ? e.message : 'Submit failed' });
-          }
-        }}
+        onSubmit={handleFormikSubmit}
       >
         {({ values, handleChange, handleSubmit, touched, errors, isSubmitting, status }) => (
           <form onSubmit={handleSubmit}>
@@ -125,7 +132,12 @@ export function AccountUpsertModal() {
             </DialogContent>
 
             <DialogActions>
-              <Button onClick={() => dispatch(accountManageActions.closeUpsert())} disabled={isSubmitting}>
+              <Button
+                onClick={
+                  () => (accountManageActions.closeUpsert())
+                } 
+                disabled={isSubmitting}
+              >
                 Cancel
               </Button>
               <Button type="submit" variant="contained" disabled={isSubmitting}>

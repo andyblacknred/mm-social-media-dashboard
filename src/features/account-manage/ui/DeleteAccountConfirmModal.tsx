@@ -1,16 +1,16 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
 
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import { deleteAccount, selectAccounts } from '@/entities/account';
+import { useAccounts } from "@/entities/account/model/useAccounts.ts";
 import { accountManageActions, selectDeleteOpen, selectDeletingId } from '@/features/account-manage';
+import { useAppDispatch, useAppSelector } from "@/shared/lib/storeHooks.ts";
 
-export function DeleteAccountConfirm() {
+export function DeleteAccountConfirmModal() {
   const dispatch = useAppDispatch();
 
   const open = useAppSelector(selectDeleteOpen);
   const deletingId = useAppSelector(selectDeletingId);
-  const accounts = useAppSelector(selectAccounts);
 
+  const { items: accounts, remove: deleteAccount } = useAccounts();
   const account = deletingId ? accounts.find((x) => x.id === deletingId) : undefined;
 
   return (
@@ -28,7 +28,7 @@ export function DeleteAccountConfirm() {
           variant="contained"
           onClick={async () => {
             if (!deletingId) return;
-            await dispatch(deleteAccount(deletingId)).unwrap();
+            await deleteAccount(deletingId);
             dispatch(accountManageActions.closeDelete());
           }}
         >

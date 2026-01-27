@@ -56,6 +56,18 @@ export default defineConfig([
       indent: ["error", 2, { SwitchCase: 1 }],
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      'max-len': [
+        'error',
+        {
+          code: 100,
+          tabWidth: 2,
+          ignoreUrls: true,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+          ignoreRegExpLiterals: true,
+          ignoreComments: false,
+        },
+      ],
     },
   },
 ])

@@ -1,31 +1,25 @@
 import { Alert, CircularProgress } from '@mui/material';
 import { useEffect } from 'react';
 
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
-import {
-  AccountCard,
-  fetchAccounts,
-  selectAccounts,
-  selectAccountsError,
-  selectAccountsLoading,
-} from '@/entities/account';
+import { AccountCard } from '@/entities/account';
+import { useAccounts } from "@/entities/account/model/useAccounts.ts";
 import {
   AccountActions,
   AccountUpsertModal,
   AddAccountButton,
-  DeleteAccountConfirm,
+  DeleteAccountConfirmModal,
 } from '@/features/account-manage';
 
 export function AccountsOverview() {
-  const dispatch = useAppDispatch();
-
-  const items = useAppSelector(selectAccounts);
-  const loading = useAppSelector(selectAccountsLoading);
-  const error = useAppSelector(selectAccountsError);
+  const { items, loading, error, refresh } = useAccounts();
 
   useEffect(() => {
-    dispatch(fetchAccounts());
-  }, [dispatch]);
+    const init = async (): Promise<void> => {
+      await refresh();
+    }
+
+    void init();
+  }, [refresh]);
 
   return (
     <div className="container py-4">
@@ -54,7 +48,7 @@ export function AccountsOverview() {
 
       {/* Modals */}
       <AccountUpsertModal />
-      <DeleteAccountConfirm />
+      <DeleteAccountConfirmModal />
     </div>
   );
 }

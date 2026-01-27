@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 
-import { useAppDispatch } from '@/app/store/hooks';
 import { accountManageActions } from '@/features/account-manage';
+import { useAppDispatch } from "@/shared/lib/storeHooks.ts";
 
 export function AddAccountButton() {
   const dispatch = useAppDispatch();
