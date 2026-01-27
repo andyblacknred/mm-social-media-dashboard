@@ -2,7 +2,7 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, M
 import { Formik, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 
-import { type AccountPlatform, type AccountUpsert } from '@/entities/account';
+import { type Account, type AccountPlatform, type AccountUpsert } from '@/entities/account';
 import { useAccounts } from "@/entities/account/model/useAccounts.ts";
 import { accountManageActions, selectEditingId, selectUpsertOpen } from '@/features/account-manage';
 import { useAppDispatch, useAppSelector } from "@/shared/lib/storeHooks.ts";
@@ -24,7 +24,8 @@ export function AccountUpsertModal() {
   const editingId = useAppSelector(selectEditingId);
   const { items: accounts, update: updateAccount, create: createAccount } = useAccounts();
 
-  const editing = editingId ? accounts.find((x) => x.id === editingId) : undefined;
+  const editing: Account | undefined =
+    editingId ? accounts.find((x) => x.id === editingId) : undefined;
 
   const initialValues: AccountUpsert = {
     platform: editing?.platform ?? platforms[0],
@@ -40,7 +41,7 @@ export function AccountUpsertModal() {
     async (
       values: AccountUpsert,
       helpers: FormikHelpers<AccountUpsert>
-    ) => {
+    ): Promise<void> => {
       try {
         if (editingId) {
           await updateAccount(editingId, values)
@@ -52,9 +53,13 @@ export function AccountUpsertModal() {
         helpers.setStatus({ submitError: e instanceof Error ? e.message : 'Submit failed' });
       }
     }
+    
+  const handleClose = (): void => {
+    dispatch(accountManageActions.closeUpsert())
+  }
 
   return (
-    <Dialog open={isOpened} onClose={() => dispatch(accountManageActions.closeUpsert())} fullWidth maxWidth="sm">
+    <Dialog open={isOpened} onClose={handleClose} fullWidth maxWidth="sm">
       <DialogTitle>{title}</DialogTitle>
 
       <Formik
@@ -131,11 +136,9 @@ export function AccountUpsertModal() {
               </Stack>
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions className="px-4 pb-4 pt-0">
               <Button
-                onClick={
-                  () => (accountManageActions.closeUpsert())
-                } 
+                onClick={handleClose} 
                 disabled={isSubmitting}
               >
                 Cancel

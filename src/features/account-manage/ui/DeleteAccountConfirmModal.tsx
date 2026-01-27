@@ -13,8 +13,18 @@ export function DeleteAccountConfirmModal() {
   const { items: accounts, remove: deleteAccount } = useAccounts();
   const account = deletingId ? accounts.find((x) => x.id === deletingId) : undefined;
 
+  const handleCancel = (): void => {
+    dispatch(accountManageActions.closeDelete());
+  }
+
+  const handleDelete = async (): Promise<void> => {
+    if (!deletingId) return;
+    await deleteAccount(deletingId);
+    dispatch(accountManageActions.closeDelete());
+  }
+
   return (
-    <Dialog open={open} onClose={() => dispatch(accountManageActions.closeDelete())}>
+    <Dialog open={open} onClose={handleCancel}>
       <DialogTitle>Delete account</DialogTitle>
       <DialogContent>
         <Typography>
@@ -22,15 +32,11 @@ export function DeleteAccountConfirmModal() {
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => dispatch(accountManageActions.closeDelete())}>Cancel</Button>
+        <Button onClick={handleCancel}>Cancel</Button>
         <Button
           color="error"
           variant="contained"
-          onClick={async () => {
-            if (!deletingId) return;
-            await deleteAccount(deletingId);
-            dispatch(accountManageActions.closeDelete());
-          }}
+          onClick={handleDelete}
         >
           Delete
         </Button>
