@@ -9,7 +9,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "init": "npm run init:env && npm run init:db",
+    "init:env": "shx test -f .env || shx cp .env.example .env",
+    "init:db": "shx test -f mock/db.json || shx cp mock/db.example.json mock/db.json"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -32,6 +35,7 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "copyfiles": "^2.4.1",
     "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
@@ -39,6 +43,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "json-server": "^1.0.0-beta.5",
+    "shx": "^0.4.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"
