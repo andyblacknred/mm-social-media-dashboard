@@ -40,9 +40,15 @@ export function useAccounts() {
   const create = useCallback(
     async (payload: AccountUpsert) => {
       dispatch(setError(null));
-      const created = await accountApi.create(payload); // todo - try/catch
-      dispatch(addAccount(created));
-      return created;
+
+      try {
+        const created = await accountApi.create(payload);
+        dispatch(addAccount(created));
+        return created;
+      } catch (e) {
+        dispatch(setError(e instanceof Error ? e.message : 'Failed to create account'));
+        throw e;
+      }
     },
     [addAccount, dispatch, setError],
   );
@@ -50,9 +56,15 @@ export function useAccounts() {
   const update = useCallback(
     async (id: string, payload: AccountUpsert) => {
       dispatch(setError(null));
-      const updated = await accountApi.update(id, payload); // todo - try/catch
-      dispatch(updateAccountLocal(updated));
-      return updated;
+
+      try {
+        const updated = await accountApi.update(id, payload);
+        dispatch(updateAccountLocal(updated));
+        return updated;
+      } catch (e) {
+        dispatch(setError(e instanceof Error ? e.message : 'Failed to update account'));
+        throw e;
+      }
     },
     [dispatch, setError, updateAccountLocal],
   );
@@ -60,11 +72,18 @@ export function useAccounts() {
   const remove = useCallback(
     async (id: string) => {
       dispatch(setError(null));
-      await accountApi.remove(id); // todo - try/catch
-      dispatch(removeAccount(id));
+
+      try {
+        await accountApi.remove(id);
+        dispatch(removeAccount(id));
+      } catch (e) {
+        dispatch(setError(e instanceof Error ? e.message : 'Failed to delete account'));
+        throw e;
+      }
     },
     [dispatch, removeAccount, setError],
   );
+
 
   return { items, loading, error, refresh, create, update, remove };
 }
