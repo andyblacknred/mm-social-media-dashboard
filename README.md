@@ -1,73 +1,119 @@
-# React + TypeScript + Vite
+# mm-social-media-dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A small **React + TypeScript** dashboard-style application built with **Vite**.
 
-Currently, two official plugins are available:
+This repository includes example configuration files and an `init` script that generates local-only config files for development.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+TODO: add demo link (GitHub Pages / Vercel / Netlify)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tech Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- React
+- TypeScript
+- Vite
+- ESLint
+- PostCSS
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting Started
+
+### 1) Install dependencies
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2) Initialize local config (`.env`, `mock/db.json`)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project ships with example files:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `.env.example` → `.env`
+- `mock/db.example.json` → `mock/db.json`
+
+Run:
+
+```bash
+npm run init
 ```
+
+> The init script should **not overwrite** existing `.env` / `mock/db.json` (so your local config stays safe).
+
+### 3) Start development server
+
+```bash
+npm run dev
+```
+
+Vite will print the local URL in the terminal (usually `http://localhost:5173`).
+
+---
+
+## Environment Variables
+
+See `.env.example` for the full list of supported variables.
+
+> Keep `.env` private — it should stay in `.gitignore`.
+
+---
+
+## Mock Data
+
+Mock database file:
+
+- `mock/db.json` (generated from `mock/db.example.json`)
+
+If you use a mock server (e.g. `json-server`), you can run it like this:
+
+```bash
+npx json-server --watch mock/db.json --port 3001
+```
+
+Then point your frontend API base URL to:
+
+- `http://localhost:3001`
+
+> If your implementation does not use `json-server`, you can remove this section.
+
+---
+
+## Available Scripts
+
+Check `package.json` for the full list. Common ones:
+
+- `npm run init` — generate `.env` + `mock/db.json` from example files
+- `npm run dev` — start Vite dev server
+- `npm run build` — production build
+- `npm run preview` — preview the production build
+- `npm run lint` — run ESLint
+
+---
+
+## Project Structure
+
+```text
+.
+├─ mock/
+│  ├─ db.example.json
+│  └─ db.json            # generated (local)
+├─ public/
+├─ src/
+├─ .env.example
+├─ .env                  # generated (local)
+├─ index.html
+├─ package.json
+└─ vite.config.ts
+```
+
+---
+
+## Notes
+
+- Example files exist to make the project easy to run right after cloning.
+- Generated files (`.env`, `mock/db.json`) are meant for **local development only**.
