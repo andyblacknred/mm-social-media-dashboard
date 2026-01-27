@@ -2,12 +2,12 @@
   "accounts": [
     {
       "id": "acc_1",
-      "platform": "Instagram",
+      "platform": "Facebook",
       "name": "mine_marketing",
       "followers": 12450,
       "engagementRate": 3.8,
       "postsLast7Days": 5,
-      "updatedAt": "2026-01-26T00:00:00.000Z"
+      "updatedAt": "2026-01-27T16:25:30.981Z"
     },
     {
       "id": "acc_2",
@@ -17,6 +17,15 @@
       "engagementRate": 7.1,
       "postsLast7Days": 9,
       "updatedAt": "2026-01-26T00:00:00.000Z"
+    },
+    {
+      "id": "acc_3",
+      "platform": "Instagram",
+      "name": "Extremely long account name (just for testing purposes only)",
+      "followers": 1e+300,
+      "engagementRate": 100,
+      "postsLast7Days": 1e+300,
+      "updatedAt": "2026-01-27T16:23:43.418Z"
     }
   ]
 }

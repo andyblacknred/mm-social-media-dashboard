@@ -1,6 +1,7 @@
-import { Card, CardContent, Typography, Stack, Chip, Box } from '@mui/material';
+import { Card, CardContent, Typography, Stack, Chip, Box, Tooltip } from '@mui/material';
 
 import type { Account } from "@/entities/account";
+import { formatCompactNumber, isCompactApplied } from "@/shared/lib/formatNumber.ts";
 
 type Props = {
   account: Account;
@@ -8,6 +9,9 @@ type Props = {
 };
 
 export function AccountCard({ account, actions }: Props) {
+  const postsLast7Days = formatCompactNumber(account.postsLast7Days);
+  const followers = formatCompactNumber(account.followers);
+
   return (
     <Card variant="outlined">
       <CardContent>
@@ -16,7 +20,14 @@ export function AccountCard({ account, actions }: Props) {
             <Typography variant="h6">{account.name}</Typography>
             <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
               <Chip size="small" label={account.platform} />
-              <Chip size="small" label={`Posts (last 7 days): ${account.postsLast7Days}`} />
+              <Tooltip
+                title={postsLast7Days.full}
+                arrow disableFocusListener={!isCompactApplied(postsLast7Days)}
+                disableHoverListener={!isCompactApplied(postsLast7Days)}
+                disableTouchListener={!isCompactApplied(postsLast7Days)}
+              >
+                <Chip size="small" label={`Posts (last 7 days): ${postsLast7Days.short}`} />
+              </Tooltip>
             </Stack>
           </Box>
 
@@ -28,7 +39,14 @@ export function AccountCard({ account, actions }: Props) {
             <Typography variant="caption" color="text.secondary">
               Followers
             </Typography>
-            <Typography variant="h6">{account.followers.toLocaleString()}</Typography>
+            <Tooltip
+              title={followers.full}
+              arrow disableFocusListener={!isCompactApplied(followers)}
+              disableHoverListener={!isCompactApplied(followers)}
+              disableTouchListener={!isCompactApplied(followers)}
+            >
+              <Typography variant="h6">{followers.short.toLocaleString()}</Typography>
+            </Tooltip>
           </Box>
 
           <Box>
@@ -39,7 +57,7 @@ export function AccountCard({ account, actions }: Props) {
           </Box>
 
           {
-            actions ? 
+            actions ?
               <Box className="sm:hidden flex items-end w-full justify-end" sx={{ ml: 'auto' }}>
                 {actions}
               </Box> 
