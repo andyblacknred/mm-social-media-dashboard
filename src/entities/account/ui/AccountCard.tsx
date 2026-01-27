@@ -16,7 +16,7 @@ export function AccountCard({ account, actions }: Props) {
             <Typography variant="h6">{account.name}</Typography>
             <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
               <Chip size="small" label={account.platform} />
-              <Chip size="small" label={`Posts 7d: ${account.postsLast7Days}`} />
+              <Chip size="small" label={`Posts (last 7 days): ${account.postsLast7Days}`} />
             </Stack>
           </div>
 
