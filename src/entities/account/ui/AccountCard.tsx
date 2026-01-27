@@ -1,23 +1,13 @@
-import { Card, CardContent, Typography, Stack, Chip, Box, Tooltip, styled } from '@mui/material';
+import { Box, CardContent, Chip, Stack, Tooltip, Typography } from '@mui/material';
 
 import type { Account } from "@/entities/account";
+import { HoverCard } from "@/entities/account/ui/HoverCard.ts";
 import { formatCompactNumber, isCompactApplied } from "@/shared/lib/formatNumber.ts";
 
 type Props = {
   account: Account;
   actions?: React.ReactNode;
 };
-
-const HoverCard = styled(Card)(({ theme }) => ({
-  height: '100%',
-  transition: 'transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease',
-  borderColor: theme.palette.divider,
-  '&:hover': {
-    transform: 'translateY(-2px)',
-    boxShadow: theme.shadows[4],
-    borderColor: theme.palette.primary.main,
-  },
-}));
 
 const buttonsSectionWidth = 80; // px
 
