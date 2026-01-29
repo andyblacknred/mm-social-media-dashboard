@@ -25,7 +25,7 @@ Data is loaded from a local mock API and stored in the client state. The codebas
 - PostCSS
 - MUI
 - Tailwind CSS
-- Bootstrap (grid layout)
+- Bootstrap (used primarily for the grid system per the test task requirements)
 
 ---
 
