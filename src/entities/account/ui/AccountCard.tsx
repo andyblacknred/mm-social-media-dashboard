@@ -17,7 +17,7 @@ export function AccountCard({ account, actions }: Props) {
 
   return (
     <HoverCard variant="outlined" className="h-full">
-      <CardContent  className="h-full flex flex-col justify-between items-start w-full">
+      <CardContent className="h-full flex flex-col justify-between items-start w-full">
         <Stack direction="row" justifyContent="space-between" alignItems="flex-start" width="100%" spacing={2}>
           <Box maxWidth={`calc(100% - ${buttonsSectionWidth}px)`}>
             <Typography variant="h6">{account.name}</Typography>
