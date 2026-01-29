@@ -61,7 +61,7 @@ export function AccountCard({ account, actions }: Props) {
 
           {
             actions ?
-              <Box className="sm:hidden flex items-end w-full justify-end" sx={{ ml: 'auto' }}>
+              <Box className="sm:hidden flex items-end w-full justify-end ml-auto">
                 {actions}
               </Box> 
               : null
