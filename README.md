@@ -50,7 +50,7 @@ Run (once after cloning):
 npm run init
 ```
 
-> Treat this like `npm install`: run it for a fresh clone to create local-only files.
+> Run it for a fresh clone to create local-only files.
 > If you already have `.env` / `mock/db.json`, you typically don’t need to run it again.
 
 ### 3) Start mock API
