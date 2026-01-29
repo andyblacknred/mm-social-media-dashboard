@@ -1,14 +1,18 @@
-# mm-social-media-dashboard
+# mm-social-media-dashboard (Test Task)
 
 A small **React + TypeScript** dashboard-style application built with **Vite**.
 
-This repository includes example configuration files and an `init` script that generates local-only config files for development.
-
 ---
 
-## Demo
+## How It Works
 
-TODO: add demo link (GitHub Pages / Vercel / Netlify)
+This app is a lightweight social-media dashboard where you can:
+
+- View a list of accounts in a dashboard layout
+- See key account stats (e.g. posts in the last 7 days)
+- Manage accounts (add / edit / delete) via UI actions and modals
+
+Data is loaded from a local mock API and stored in the client state. The codebase follows an FSD-like structure (`app / pages / widgets / features / entities / shared`).
 
 ---
 
@@ -19,6 +23,9 @@ TODO: add demo link (GitHub Pages / Vercel / Netlify)
 - Vite
 - ESLint
 - PostCSS
+- MUI
+- Tailwind CSS
+- Bootstrap (grid layout)
 
 ---
 
@@ -37,15 +44,22 @@ This project ships with example files:
 - `.env.example` → `.env`
 - `mock/db.example.json` → `mock/db.json`
 
-Run:
+Run (once after cloning):
 
 ```bash
 npm run init
 ```
 
-> The init script should **not overwrite** existing `.env` / `mock/db.json` (so your local config stays safe).
+> Treat this like `npm install`: run it for a fresh clone to create local-only files.
+> If you already have `.env` / `mock/db.json`, you typically don’t need to run it again.
 
-### 3) Start development server
+### 3) Start mock API
+
+```bash
+npm run api
+```
+
+### 4) Start dev server
 
 ```bash
 npm run dev
@@ -55,58 +69,75 @@ Vite will print the local URL in the terminal (usually `http://localhost:5173`).
 
 ---
 
-## Environment Variables
-
-See `.env.example` for the full list of supported variables.
-
-> Keep `.env` private — it should stay in `.gitignore`.
-
----
-
-## Mock Data
-
-Mock database file:
-
-- `mock/db.json` (generated from `mock/db.example.json`)
-
-If you use a mock server (e.g. `json-server`), you can run it like this:
-
-```bash
-npx json-server --watch mock/db.json --port 3001
-```
-
-Then point your frontend API base URL to:
-
-- `http://localhost:3001`
-
-> If your implementation does not use `json-server`, you can remove this section.
-
----
-
-## Available Scripts
-
-Check `package.json` for the full list. Common ones:
+## Local workflow
 
 - `npm run init` — generate `.env` + `mock/db.json` from example files
+- `npm run api` — start mock API (json-server) on port `3001`
 - `npm run dev` — start Vite dev server
-- `npm run build` — production build
-- `npm run preview` — preview the production build
-- `npm run lint` — run ESLint
 
 ---
 
 ## Project Structure
 
+A simplified view of the current structure:
+
 ```text
 .
 ├─ mock/
 │  ├─ db.example.json
-│  └─ db.json            # generated (local)
-├─ public/
+│  └─ db.json                  # generated (local)
 ├─ src/
+│  ├─ app/
+│  │  ├─ providers/
+│  │  │  └─ AppProviders.tsx
+│  │  └─ store/
+│  │     └─ store.ts
+│  ├─ entities/
+│  │  └─ account/
+│  │     ├─ api/
+│  │     │  └─ accountApi.ts
+│  │     ├─ model/
+│  │     │  ├─ selectors.ts
+│  │     │  ├─ slice.ts
+│  │     │  ├─ types.ts
+│  │     │  └─ useAccounts.ts
+│  │     ├─ ui/
+│  │     │  ├─ AccountCard.tsx
+│  │     │  └─ HoverCard.ts
+│  │     └─ index.ts
+│  ├─ features/
+│  │  └─ account-manage/
+│  │     ├─ model/
+│  │     │  ├─ selectors.ts
+│  │     │  └─ slice.ts
+│  │     ├─ ui/
+│  │     │  ├─ AccountActions.tsx
+│  │     │  ├─ AccountUpsertModal.tsx
+│  │     │  ├─ AddAccountButton.tsx
+│  │     │  └─ DeleteAccountConfirmModal.tsx
+│  │     └─ index.ts
+│  ├─ pages/
+│  │  └─ dashboard/
+│  │     ├─ ui/
+│  │     │  └─ DashboardPage.tsx
+│  │     └─ index.ts
+│  ├─ widgets/
+│  │  └─ accounts-overview/
+│  │     ├─ ui/
+│  │     │  └─ AccountsOverview.tsx
+│  │     └─ index.ts
+│  ├─ shared/
+│  │  ├─ api/
+│  │  │  └─ httpClient.ts
+│  │  ├─ config/
+│  │  │  └─ env.ts
+│  │  └─ lib/
+│  │     ├─ formatNumber.ts
+│  │     └─ storeHooks.ts
+│  ├─ App.tsx
+│  └─ main.tsx
 ├─ .env.example
-├─ .env                  # generated (local)
-├─ index.html
+├─ .env                        # generated (local)
 ├─ package.json
 └─ vite.config.ts
 ```
@@ -115,5 +146,8 @@ Check `package.json` for the full list. Common ones:
 
 ## Notes
 
-- Example files exist to make the project easy to run right after cloning.
-- Generated files (`.env`, `mock/db.json`) are meant for **local development only**.
+- The backend is **emulated with `json-server`**.
+  All mock data lives in `mock/db.json` (generated from `mock/db.example.json`).
+- Styling is intentionally mixed:
+    - **Bootstrap** is used for the grid/layout
+    - **Tailwind + MUI** are used for the rest (utility styling + ready-to-use UI components)
