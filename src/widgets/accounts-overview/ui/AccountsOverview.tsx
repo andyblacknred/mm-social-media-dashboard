@@ -1,4 +1,4 @@
-import { Alert, CircularProgress } from '@mui/material';
+import {Alert, Box, CircularProgress, Typography} from '@mui/material';
 import { useEffect } from 'react';
 
 import { AccountCard } from '@/entities/account';
@@ -22,33 +22,33 @@ export function AccountsOverview() {
   }, [refresh]);
 
   return (
-    <div className="container py-4">
-      <div className="d-flex align-items-center justify-content-between mb-3">
-        <h1 className="h4 m-0">Social Media Overview</h1>
+    <Box className="container py-4">
+      <Box className="d-flex align-items-center justify-content-between mb-3">
+        <Typography variant="h1" fontSize={32}>Social Media Overview</Typography>
         <AddAccountButton />
-      </div>
+      </Box>
 
       {loading ? (
-        <div className="d-flex justify-content-center py-5">
+        <Box className="d-flex justify-content-center py-5">
           <CircularProgress />
-        </div>
+        </Box>
       ) : null}
 
       {error ? <Alert severity="error">{error}</Alert> : null}
 
       {!loading && !error && items.length === 0 ? <Alert severity="info">No accounts yet</Alert> : null}
 
-      <div className="row g-3 mt-1">
+      <Box className="row g-3 mt-1">
         {items.map((account) => (
-          <div key={account.id} className="col-12 col-md-6 col-xl-4">
+          <Box key={account.id} className="col-12 col-md-6 col-xl-4">
             <AccountCard account={account} actions={<AccountActions accountId={account.id} />} />
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
 
       {/* Modals */}
       <AccountUpsertModal />
       <DeleteAccountConfirmModal />
-    </div>
+    </Box>
   );
 }
